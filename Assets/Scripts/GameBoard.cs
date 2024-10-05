@@ -17,10 +17,13 @@ public class GameBoard : MonoBehaviour
     private Transform _tempCard = default;
     private Card _previousCard;
     private int state = 0;
+    private ScoreSystem _scoreSystem;
 
     /// Takes face card sprites and pass it to card creation  
     public void SetBoard(List<Sprite> selectedCardFace)
     {
+        _scoreSystem = new ScoreSystem();
+
         ScaleCardToFitContainor(selectedCardFace[0], (float)selectedCardFace.Count / 2);
         for (int i = 0; i < selectedCardFace.Count; i++)
         {
@@ -47,10 +50,12 @@ public class GameBoard : MonoBehaviour
                     if (_previousCard.CardID.Equals(currentCard.CardID))
                     {
                         StartCoroutine(DeactivateMatchingCards(_previousCard, currentCard));
+                        _scoreSystem.CardsMatched_Score();
                     }
                     else
                     {
                         StartCoroutine(ResetCardsSelected(_previousCard, currentCard));
+                        _scoreSystem.CardsMisMatchedScore();
                     }
                     state = 0;
                     break;
