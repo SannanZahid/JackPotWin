@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,17 +18,20 @@ public class GameBoard : MonoBehaviour
     private Transform _tempCard = default;
     private Card _previousCard;
     private int state = 0;
+    private int _currentLevel = default;
     private ScoreSystem _scoreSystem;
+    
 
     private void Awake()
     {
         _scoreSystem = new ScoreSystem();
+        _currentLevel = GameConstantsPlayerPref.GetGameLevel();
+        SetCurrentLevelText(_currentLevel);
     }
 
     /// Takes face card sprites and pass it to card creation  
     public void SetBoard(List<Sprite> selectedCardFace)
     {
-
         ScaleCardToFitContainor(selectedCardFace[0], (float)selectedCardFace.Count / 2);
         for (int i = 0; i < selectedCardFace.Count; i++)
         {
@@ -70,6 +74,33 @@ public class GameBoard : MonoBehaviour
         }
     }
 
+    public void ResetBoardElements()
+    {
+        foreach (Transform card in _spawnCards)
+        {
+            card.GetComponent<Card>().DeactivateCard();
+        }
+        _spawnCards.Clear();
+    }
+
+    public void ResetBoard(List<Sprite> selectedCardFace)
+    {
+        ResetBoardElements();
+        _scoreSystem.ResetScoreForNewLevel();
+        Transform[] exixtingCards = _boardWidgetHolder.GetComponentsInChildren<Transform>();
+        for (int i = 1, j = 0; i < exixtingCards.Length; i += 2, j++)
+        {
+            exixtingCards[i].GetComponent<Card>().ResetCard(j, selectedCardFace[j]);
+            exixtingCards[i].SetParent(null);
+            _spawnCards.Add(exixtingCards[i]);
+            exixtingCards[i + 1].GetComponent<Card>().ResetCard(j, selectedCardFace[j]);
+            exixtingCards[i + 1].SetParent(null);
+            _spawnCards.Add(exixtingCards[i + 1]);
+        }
+        ShuffleAndSetToBoard();
+        StartCoroutine(StartGame());
+    }
+
     // Shuffles the created card and sets the Cards in to the UI Canvas containor
     private void ShuffleAndSetToBoard()
     {
@@ -104,6 +135,7 @@ public class GameBoard : MonoBehaviour
         card2.DeactivateCardAnimated();
         _spawnCards.Remove(card1.transform);
         _spawnCards.Remove(card2.transform);
+        ValidateGameEnd();
     }
 
     private IEnumerator StartGame()
@@ -113,6 +145,22 @@ public class GameBoard : MonoBehaviour
         {
             card.GetComponent<Card>().ShowCardSide(Card.CardSides.Back);
         }
+    }
+
+    private void ValidateGameEnd()
+    {
+        if (_spawnCards.Count <= 0)
+        {
+            GameController.LevelCompleteEventListner?.Invoke();
+            SetLevelLabel();
+        }
+    }
+
+    private void SetLevelLabel()
+    {
+        _currentLevel++;
+        GameConstantsPlayerPref.SetGameLevel(_currentLevel);
+        SetCurrentLevelText(_currentLevel);
     }
 
     //scalling cards according to containor widget
@@ -142,5 +190,10 @@ public class GameBoard : MonoBehaviour
         {
             boardContainor.cellSize = new Vector2(spriteWidth * ratioHeight, spriteHeight * ratioHeight);
         }
+    }
+
+    private void SetCurrentLevelText(int value)
+    {
+        GameUIMnager.Instance.SetGameLevelText("" + value);
     }
 }

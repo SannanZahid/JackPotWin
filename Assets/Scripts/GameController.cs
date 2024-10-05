@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,15 +14,39 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public int CardToPlaceOnBoard = 8;
+    public static Action LevelCompleteEventListner;
 
     [Header("Pass Sprites Of Facing Cards")]
     [SerializeField] private List<Sprite> _cardFace = new List<Sprite>();
     [Header("Pass GameBoard Object Reference")]
     [SerializeField] private GameBoard _gameBoard = default;
 
-    void Start()
+
+    private void Start()
     {
         InitializeBoard();
+    }
+
+    private void OnEnable()
+    {
+        LevelCompleteEventListner += LevelComplete;
+    }
+
+    private void OnDisable()
+    {
+        LevelCompleteEventListner += LevelComplete;
+    }
+
+    public void StartNextLevel()
+    {
+        ShuffleCards(ref _cardFace);
+        _gameBoard.ResetBoard(GetShuffledFaceCards());
+    }
+    public void LevelComplete()
+    {
+        StartCoroutine(StartGame());
+
+        GameSoundManager.Instance.PlaySoundOneShot(GameSoundManager.SoundType.GameComplete);
     }
 
     //Function Shuffles the sprites so everytime new face card are spawn on to the board.
@@ -50,5 +75,11 @@ public class GameController : MonoBehaviour
             list[k] = list[n];
             list[n] = value;
         }
+    }
+
+    private IEnumerator StartGame()
+    {
+        yield return new WaitForSeconds(3f);
+        StartNextLevel();
     }
 }
