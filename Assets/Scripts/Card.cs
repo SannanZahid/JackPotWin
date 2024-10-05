@@ -52,6 +52,8 @@ public class Card : MonoBehaviour
                     break;
                 }
         }
+
+        GameSoundManager.Instance.PlaySoundOneShot(GameSoundManager.SoundType.CardFlip);
     }
 
     public void CardInteraction()
