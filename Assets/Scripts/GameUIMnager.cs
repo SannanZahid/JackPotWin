@@ -13,6 +13,7 @@ public class GameUIMnager : Singleton<GameUIMnager>
     [SerializeField] private TMP_Text _totalComboTxt;
     [SerializeField] private TMP_Text _gameLevelTxt;
     [SerializeField] private TMP_Text _gameTimerTxt;
+    [SerializeField] private Transform _LevelCompleteScreen;
 
     public void SetMatchesText(string messageText)
     {
@@ -52,6 +53,11 @@ public class GameUIMnager : Singleton<GameUIMnager>
     public void SetGameTimerText(string messageText)
     {
         _gameTimerTxt.text = "TIME " + messageText;
+    }
+
+    public void ToggleActivateLevelCompleteScreen(bool flag)
+    {
+        _LevelCompleteScreen.gameObject.SetActive(flag);
     }
 
 }
