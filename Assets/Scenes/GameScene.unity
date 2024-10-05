@@ -444,8 +444,8 @@ MonoBehaviour:
   m_ChildAlignment: 4
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 70, y: 83}
-  m_Spacing: {x: 128.11, y: 134.5}
+  m_CellSize: {x: 0, y: 0}
+  m_Spacing: {x: 10, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 4
 --- !u!114 &739652158
@@ -533,6 +533,7 @@ MonoBehaviour:
   StartGameAfter: 1
   _cardPrefab: {fileID: 875065443624970601, guid: 083c509d5031c534aa8fe6deacb465f1, type: 3}
   _boardWidgetHolder: {fileID: 739652156}
+  _cellSpacing: 10
 --- !u!1 &1401329831
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,6 +578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 969f5b010d4aa3d47b5c152ba1a6b8b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardToPlaceOnBoard: 8
   _cardFace:
   - {fileID: 1311494806, guid: 2c763b557ba88954eb6ecf8b22aeb4df, type: 3}
   - {fileID: 1425109225, guid: 2c763b557ba88954eb6ecf8b22aeb4df, type: 3}
@@ -597,7 +599,6 @@ MonoBehaviour:
   - {fileID: -693546832, guid: 2c763b557ba88954eb6ecf8b22aeb4df, type: 3}
   - {fileID: -27013671, guid: 2c763b557ba88954eb6ecf8b22aeb4df, type: 3}
   _gameBoard: {fileID: 1134853793}
-  CardToPlaceOnBoard: 8
 --- !u!1 &1867431945
 GameObject:
   m_ObjectHideFlags: 0
