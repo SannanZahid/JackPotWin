@@ -19,10 +19,14 @@ public class GameBoard : MonoBehaviour
     private int state = 0;
     private ScoreSystem _scoreSystem;
 
+    private void Awake()
+    {
+        _scoreSystem = new ScoreSystem();
+    }
+
     /// Takes face card sprites and pass it to card creation  
     public void SetBoard(List<Sprite> selectedCardFace)
     {
-        _scoreSystem = new ScoreSystem();
 
         ScaleCardToFitContainor(selectedCardFace[0], (float)selectedCardFace.Count / 2);
         for (int i = 0; i < selectedCardFace.Count; i++)
