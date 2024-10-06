@@ -3,12 +3,17 @@ using UnityEngine;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [Header("-- Pass Text References --")]
+    [Header("-- Score Text References --")]
     [Space(10)]
     [SerializeField] private TMP_Text _totalMatches;
     [SerializeField] private TMP_Text _totalTurns;
     [SerializeField] private TMP_Text _totalCombo;
     [SerializeField] private TMP_Text _gameLevel;
+
+    [Header("-- Loading Screen UI Settings --")]
+    [Space(10)]
+    [SerializeField] private Transform _loagingScreen;
+    [SerializeField] private string _gameSceneName = "GameScene";
 
     public void Start()
     {
@@ -45,5 +50,11 @@ public class MainMenuManager : MonoBehaviour
         SetTotalMatchesText("" + GameConstantsPlayerPref.GetTotalMatches());
         SetTotalTurnsText("" + GameConstantsPlayerPref.GetTotalTurns());
         SetGameLevelText("LEVEL " + GameConstantsPlayerPref.GetGameLevel());
+    }
+
+    public void StartGameScene()
+    {
+        _loagingScreen.gameObject.SetActive(true);
+        _loagingScreen.gameObject.GetComponent<LoadingScreenAsyncHandler>().StartLoading(_gameSceneName);
     }
 }

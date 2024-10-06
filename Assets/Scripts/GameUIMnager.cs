@@ -16,6 +16,11 @@ public class GameUIMnager : Singleton<GameUIMnager>
     [SerializeField] private Transform _LevelCompleteScreen;
     [SerializeField] private Transform _LevelFailScreen;
 
+    [Header("-- Loading Screen UI Settings --")]
+    [Space(10)]
+    [SerializeField] private Transform _loadingScreen;
+    [SerializeField] private string _MainMenuSceneName = "MainMenu";
+
 
     public void SetMatchesText(string messageText)
     {
@@ -65,6 +70,12 @@ public class GameUIMnager : Singleton<GameUIMnager>
     public void ToggleActivateLevelFailScreen(bool flag)
     {
         _LevelFailScreen.gameObject.SetActive(flag);
+    }
+
+    public void LaunchtMainMenuScene()
+    {
+        _loadingScreen.gameObject.SetActive(true);
+        _loadingScreen.gameObject.GetComponent<LoadingScreenAsyncHandler>().StartLoading(_MainMenuSceneName);
     }
 
 }
