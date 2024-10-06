@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class GameConstantsPlayerPref : MonoBehaviour
 {
+
+    #region LevelBoardJsonSave
+
+    public static void SetBoardData(string data)
+    {
+        PlayerPrefs.SetString("Game_BoardData", data);
+    }
+
+    public static string GetBoardData()
+    {
+        return PlayerPrefs.GetString("Game_BoardData");
+    }
+
+    #endregion
+
     #region Sound
 
     public static void SetSound(int i)
@@ -73,6 +88,14 @@ public class GameConstantsPlayerPref : MonoBehaviour
     public static int GetFirstTimeGameOpenSet()
     {
         return PlayerPrefs.GetInt("FirstTimeSet");
+    }
+
+    public static void SetInitialGameStats()
+    {
+        if (GetFirstTimeGameOpenSet().Equals(0))
+        {
+            SetDefaultGameValues();
+        }
     }
 
     public static void SetDefaultGameValues()

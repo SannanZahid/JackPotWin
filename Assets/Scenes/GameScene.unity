@@ -442,6 +442,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelCompleteScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 1638035118958883231, guid: dd7e9e88eabb7534a86618053d885f31, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1638035119112148712, guid: dd7e9e88eabb7534a86618053d885f31, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1118,6 +1122,12 @@ MonoBehaviour:
   _boardWidgetHolder: {fileID: 739652156}
   _cellSpacing: 10
   _timerSystem: {fileID: 966591971}
+  _levelSaveSystem:
+    TotalCardsOnBoard: 0
+    CardsOnBoard: []
+    MatchedCount: 0
+    TurnsCount: 0
+    CardsComboCount: 0
 --- !u!114 &1138689499 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2809064824530870238, guid: 1cd0474fd1413334fa1d33020148924c, type: 3}
@@ -1423,6 +1433,10 @@ PrefabInstance:
     - target: {fileID: 2724527622859260348, guid: 6eab07a9b62f2674985fd8f9c2027163, type: 3}
       propertyPath: m_Name
       value: LevelFailScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724527622859260348, guid: 6eab07a9b62f2674985fd8f9c2027163, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2724527623083323803, guid: 6eab07a9b62f2674985fd8f9c2027163, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

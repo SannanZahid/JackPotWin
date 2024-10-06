@@ -21,14 +21,21 @@ public class Card : MonoBehaviour
     private bool flipAnimFlag = true;
 
     //Initialize the card front with sprite, adds button and binds interation listener to button
-    public void Init(int cardId, Sprite cardFace, Action<Card> callbackSelectedCard)
+    public void Init(int cardId, Sprite cardFace, Action<Card> callbackSelectedCard, bool activeCard = true)
     {
         _callbackSelectedCardToGameBoard = callbackSelectedCard;
         CardID = cardId;
         _cardFront.GetComponent<Image>().sprite = cardFace;
         _cardInteractionBtn = transform.gameObject.AddComponent<Button>();
         _cardInteractionBtn.onClick.AddListener(CardInteraction);
-        ShowCardSide(CardSides.Front);
+        if(activeCard)
+        {
+            ShowCardSide(CardSides.Front);
+        }
+        else
+        {
+            DeactivateCard();
+        }
     }
 
     // for calling card side functionality
@@ -95,6 +102,18 @@ public class Card : MonoBehaviour
     {
         StartCoroutine(scaleOverTime(_cardFront, new Vector3(0, 0, 0), 0.25f));
         StartCoroutine(scaleOverTime(_cardBack, new Vector3(0, 0, 0), 0.25f));
+    }
+
+    public string GetFaceCardName()
+    {
+        return _cardFront.GetComponent<Image>().sprite.name;
+    }
+
+    public bool IsCardActive()
+    {
+       // Debug.LogError("GetFaceCardName() "+ GetFaceCardName()+" -- "+ this.GetComponent<Button>().interactable);
+
+        return _cardInteractionBtn.interactable;
     }
 
     private IEnumerator CardAnimationRotateAnimation(Transform cardFront, Transform cardBack)

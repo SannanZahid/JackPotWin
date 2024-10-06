@@ -113,6 +113,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -209,7 +221,7 @@ TextureImporter:
         width: 359
         height: 375
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -217,6 +229,27 @@ TextureImporter:
       bones: []
       spriteID: 7e0512140b6e86c47a36069508310e68
       internalID: -459562616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GameUI_Atlas_2
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 1213
+        width: 376
+        height: 374
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eaf5571056d9b9d49a897d8d86a1243a
+      internalID: -826817458
       vertices: []
       indices: 
       edges: []
@@ -254,6 +287,7 @@ TextureImporter:
       Card_Atlas_9: -1987341434
       GameUI_Atlas_0: -1979977048
       GameUI_Atlas_1: -459562616
+      GameUI_Atlas_2: -826817458
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

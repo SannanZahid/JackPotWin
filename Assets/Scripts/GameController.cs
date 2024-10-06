@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour
     {
         GameUIMnager.Instance.ToggleActivateLevelCompleteScreen(false);
         GameUIMnager.Instance.ToggleActivateLevelFailScreen(false);
-        StartCoroutine(StartGame());
+        StartCoroutine(StartNextGame());
     }
     public void LevelComplete()
     {
@@ -55,7 +55,7 @@ public class GameController : MonoBehaviour
         if (_resetFailScreenflag)
         {
             _resetFailScreenflag = false;
-            StartCoroutine(ResetGame());
+            StartCoroutine(ResetGameBoard());
         }
     }
 
@@ -64,6 +64,7 @@ public class GameController : MonoBehaviour
     {
         System.Random rng = new System.Random();
         int n = list.Count;
+
         while (n > 1)
         {
             n--;
@@ -77,9 +78,17 @@ public class GameController : MonoBehaviour
     //Function Shuffles the sprites so everytime new face card are spawn on to the board.
     private void InitializeBoard()
     {
-        ShuffleCards(ref _cardFace);
-        _gameBoard.SetBoard(GetShuffledFaceCards());
+        if(GameConstantsPlayerPref.GetBoardData().Equals(string.Empty))
+        {
+            ShuffleCards(ref _cardFace);
+            _gameBoard.SetBoard(GetShuffledFaceCards());
+        }
+        else
+        {
+            _gameBoard.LoadLastSaveLevel(_cardFace);
+        }
     }
+
 
     // Returns the number of cards to be placed on board from sprite list.
     private List<Sprite> GetShuffledFaceCards()
@@ -93,13 +102,13 @@ public class GameController : MonoBehaviour
         _gameBoard.ResetBoard(GetShuffledFaceCards());
     }
 
-    private IEnumerator StartGame()
+    private IEnumerator StartNextGame()
     {
         yield return new WaitForSeconds(1.2f);
         ShuffleAndResetBoard();
     }
 
-    private IEnumerator ResetGame()
+    private IEnumerator ResetGameBoard()
     {
         yield return new WaitForSeconds(1f);
         _resetFailScreenflag = true;

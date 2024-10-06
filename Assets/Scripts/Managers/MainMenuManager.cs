@@ -10,6 +10,12 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private TMP_Text _totalCombo;
     [SerializeField] private TMP_Text _gameLevel;
 
+    [Header("-- Main Menu Buttons --")]
+    [Space(10)]
+    [SerializeField] private Transform _LevelStartButton;
+    [SerializeField] private Transform _LevelResumeButton;
+
+
     [Header("-- Loading Screen UI Settings --")]
     [Space(10)]
     [SerializeField] private Transform _loagingScreen;
@@ -17,10 +23,17 @@ public class MainMenuManager : MonoBehaviour
 
     public void Start()
     {
-        if(GameConstantsPlayerPref.GetFirstTimeGameOpenSet().Equals(0))
+        GameConstantsPlayerPref.SetInitialGameStats();
+
+        if(GameConstantsPlayerPref.GetBoardData().Equals(string.Empty))
         {
-            GameConstantsPlayerPref.SetDefaultGameValues();
+            _LevelStartButton.gameObject.SetActive(true);
         }
+        else
+        {
+            _LevelResumeButton.gameObject.SetActive(true);
+        }
+
         SetMenuScoreBoard();
     }
 
