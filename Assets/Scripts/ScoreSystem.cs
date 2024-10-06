@@ -7,7 +7,7 @@ using UnityEngine;
 /// - Score calculated is populated to scored board in game screen UI
 /// </Class Purpose>
 
-public class ScoreSystem : MonoBehaviour
+public class ScoreSystem
 {
     private int _cardsMatchScore = 0;
     private int _turnsScore = 0;
