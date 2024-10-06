@@ -10,17 +10,26 @@ using UnityEngine.UI;
 
 public class GameBoard : MonoBehaviour
 {
-    [Header("Time User Is Showed Cards In Start")]
+    [Header("-- Time User Is Showed Cards In Start --")]
+    [Space(10)]
     [SerializeField] private float StartGameAfterTimer = 1f;
-    [SerializeField] private Transform _cardPrefab = default, _boardWidgetHolder = default;
+
+    [Header("-- Card Settings --")]
+    [Space(10)]
+    [SerializeField] private Transform _cardPrefab = default;
+    [SerializeField] private Transform _boardWidgetHolder = default;
     [SerializeField] private float _cellSpacing = 5f;
+
+    [Header("-- Level Object Timer Settings --")]
+    [Space(10)]
+    [SerializeField] private TimeSystem _timerSystem;
+
     private List<Transform> _spawnCards = new List<Transform>();
     private Transform _tempCard = default;
     private Card _previousCard;
     private int state = 0;
     private int _currentLevel = default;
     private ScoreSystem _scoreSystem;
-    
 
     private void Awake()
     {
@@ -33,11 +42,13 @@ public class GameBoard : MonoBehaviour
     public void SetBoard(List<Sprite> selectedCardFace)
     {
         ScaleCardToFitContainor(selectedCardFace[0], (float)selectedCardFace.Count / 2);
+
         for (int i = 0; i < selectedCardFace.Count; i++)
         {
             CreateCard(i, selectedCardFace[i]);
             CreateCard(i, selectedCardFace[i]);
         }
+
         ShuffleAndSetToBoard();
         StartCoroutine(StartGame());
     }
@@ -80,7 +91,9 @@ public class GameBoard : MonoBehaviour
         {
             card.GetComponent<Card>().DeactivateCard();
         }
+
         _spawnCards.Clear();
+        _timerSystem.ResetTimer();
     }
 
     public void ResetBoard(List<Sprite> selectedCardFace)
@@ -88,6 +101,7 @@ public class GameBoard : MonoBehaviour
         ResetBoardElements();
         _scoreSystem.ResetScoreForNewLevel();
         Transform[] exixtingCards = _boardWidgetHolder.GetComponentsInChildren<Transform>();
+
         for (int i = 1, j = 0; i < exixtingCards.Length; i += 2, j++)
         {
             exixtingCards[i].GetComponent<Card>().ResetCard(j, selectedCardFace[j]);
@@ -97,6 +111,7 @@ public class GameBoard : MonoBehaviour
             exixtingCards[i + 1].SetParent(null);
             _spawnCards.Add(exixtingCards[i + 1]);
         }
+
         ShuffleAndSetToBoard();
         StartCoroutine(StartGame());
     }
@@ -105,6 +120,7 @@ public class GameBoard : MonoBehaviour
     private void ShuffleAndSetToBoard()
     {
         GameController.ShuffleCards(ref _spawnCards);
+
         foreach (Transform card in _spawnCards)
         {
             card.SetParent(_boardWidgetHolder);
@@ -123,6 +139,7 @@ public class GameBoard : MonoBehaviour
     private IEnumerator ResetCardsSelected(Card card1, Card card2)
     {
         yield return new WaitForSeconds(1f);
+
         card1.ResetCard();
         card2.ResetCard();
     }
@@ -131,6 +148,7 @@ public class GameBoard : MonoBehaviour
     private IEnumerator DeactivateMatchingCards(Card card1, Card card2)
     {
         yield return new WaitForSeconds(1f);
+
         card1.DeactivateCardAnimated();
         card2.DeactivateCardAnimated();
         _spawnCards.Remove(card1.transform);
@@ -141,10 +159,13 @@ public class GameBoard : MonoBehaviour
     private IEnumerator StartGame()
     {
         yield return new WaitForSeconds(StartGameAfterTimer);
+
         foreach (Transform card in _spawnCards)
         {
             card.GetComponent<Card>().ShowCardSide(Card.CardSides.Back);
         }
+
+        _timerSystem.StartGameTimer();
     }
 
     private void ValidateGameEnd()
@@ -152,6 +173,7 @@ public class GameBoard : MonoBehaviour
         if (_spawnCards.Count <= 0)
         {
             GameController.LevelCompleteEventListner?.Invoke();
+            _timerSystem.StopLevelTimer();
             SetLevelLabel();
         }
     }

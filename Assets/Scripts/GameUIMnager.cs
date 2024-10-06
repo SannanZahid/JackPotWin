@@ -14,6 +14,8 @@ public class GameUIMnager : Singleton<GameUIMnager>
     [SerializeField] private TMP_Text _gameLevelTxt;
     [SerializeField] private TMP_Text _gameTimerTxt;
     [SerializeField] private Transform _LevelCompleteScreen;
+    [SerializeField] private Transform _LevelFailScreen;
+
 
     public void SetMatchesText(string messageText)
     {
@@ -58,6 +60,11 @@ public class GameUIMnager : Singleton<GameUIMnager>
     public void ToggleActivateLevelCompleteScreen(bool flag)
     {
         _LevelCompleteScreen.gameObject.SetActive(flag);
+    }
+
+    public void ToggleActivateLevelFailScreen(bool flag)
+    {
+        _LevelFailScreen.gameObject.SetActive(flag);
     }
 
 }

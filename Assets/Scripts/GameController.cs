@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private List<Sprite> _cardFace = new List<Sprite>();
     [Header("Pass GameBoard Object Reference")]
     [SerializeField] private GameBoard _gameBoard = default;
-
+    private bool _resetFailScreenflag = true;
 
     private void Start()
     {
@@ -40,6 +40,7 @@ public class GameController : MonoBehaviour
     public void StartNextLevel()
     {
         GameUIMnager.Instance.ToggleActivateLevelCompleteScreen(false);
+        GameUIMnager.Instance.ToggleActivateLevelFailScreen(false);
         StartCoroutine(StartGame());
     }
     public void LevelComplete()
@@ -49,17 +50,13 @@ public class GameController : MonoBehaviour
         GameSoundManager.Instance.PlaySoundOneShot(GameSoundManager.SoundType.GameComplete);
     }
 
-    //Function Shuffles the sprites so everytime new face card are spawn on to the board.
-    private void InitializeBoard()
+    public void ResetLevelOnFail()
     {
-        ShuffleCards(ref _cardFace);
-        _gameBoard.SetBoard(GetShuffledFaceCards());
-    }
-
-    // Returns the number of cards to be placed on board from sprite list.
-    private List<Sprite> GetShuffledFaceCards()
-    {
-        return _cardFace.Take(CardToPlaceOnBoard).ToList();
+        if (_resetFailScreenflag)
+        {
+            _resetFailScreenflag = false;
+            StartCoroutine(ResetGame());
+        }
     }
 
     //For shuffling objects provide through List.
@@ -77,10 +74,36 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private IEnumerator StartGame()
+    //Function Shuffles the sprites so everytime new face card are spawn on to the board.
+    private void InitializeBoard()
     {
-        yield return new WaitForSeconds(1.5f);
+        ShuffleCards(ref _cardFace);
+        _gameBoard.SetBoard(GetShuffledFaceCards());
+    }
+
+    // Returns the number of cards to be placed on board from sprite list.
+    private List<Sprite> GetShuffledFaceCards()
+    {
+        return _cardFace.Take(CardToPlaceOnBoard).ToList();
+    }
+
+    private void ShuffleAndResetBoard()
+    {
         ShuffleCards(ref _cardFace);
         _gameBoard.ResetBoard(GetShuffledFaceCards());
+    }
+
+    private IEnumerator StartGame()
+    {
+        yield return new WaitForSeconds(1.2f);
+        ShuffleAndResetBoard();
+    }
+
+    private IEnumerator ResetGame()
+    {
+        yield return new WaitForSeconds(1f);
+        _resetFailScreenflag = true;
+        GameUIMnager.Instance.ToggleActivateLevelFailScreen(false);
+        ShuffleAndResetBoard();
     }
 }
