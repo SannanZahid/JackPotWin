@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -111,8 +110,6 @@ public class Card : MonoBehaviour
 
     public bool IsCardActive()
     {
-       // Debug.LogError("GetFaceCardName() "+ GetFaceCardName()+" -- "+ this.GetComponent<Button>().interactable);
-
         return _cardInteractionBtn.interactable;
     }
 
